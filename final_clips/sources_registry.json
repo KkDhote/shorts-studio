@@ -11,7 +11,12 @@
     "thumbnail": "https://i.ytimg.com/vi/irNhWMG560k/hqdefault.jpg",
     "duration": "10h 09m",
     "clips_count": 4,
-    "clips": ["clip_1.mp4", "clip_2.mp4", "clip_3.mp4", "clip_4.mp4"],
+    "clips": [
+      "clip_1.mp4",
+      "clip_2.mp4",
+      "clip_3.mp4",
+      "clip_4.mp4"
+    ],
     "attribution_status": "Credited in Description (#CarryMinati)"
   },
   {
@@ -26,7 +31,12 @@
     "thumbnail": "https://i.ytimg.com/vi/LMbea5SozeM/hqdefault.jpg",
     "duration": "10h 09m",
     "clips_count": 4,
-    "clips": ["clip_5.mp4", "clip_6.mp4", "clip_7.mp4", "clip_8.mp4"],
+    "clips": [
+      "clip_5.mp4",
+      "clip_6.mp4",
+      "clip_7.mp4",
+      "clip_8.mp4"
+    ],
     "attribution_status": "Credited in Description (#Mythpat)"
   },
   {
@@ -41,7 +51,12 @@
     "thumbnail": "https://i.ytimg.com/vi/rQLEb0W7REo/hqdefault.jpg",
     "duration": "1h 07m",
     "clips_count": 4,
-    "clips": ["clip_9.mp4", "clip_10.mp4", "clip_11.mp4", "clip_12.mp4"],
+    "clips": [
+      "clip_9.mp4",
+      "clip_10.mp4",
+      "clip_11.mp4",
+      "clip_12.mp4"
+    ],
     "attribution_status": "Credited in Description (#theRadBrad)"
   },
   {
@@ -56,7 +71,89 @@
     "thumbnail": "https://i.ytimg.com/vi/hQAHI7aD1Dk/hqdefault.jpg",
     "duration": "11h 53m",
     "clips_count": 4,
-    "clips": ["clip_13.mp4", "clip_14.mp4", "clip_15.mp4", "clip_16.mp4"],
+    "clips": [
+      "clip_13.mp4",
+      "clip_14.mp4",
+      "clip_15.mp4",
+      "clip_16.mp4"
+    ],
     "attribution_status": "Credited in Description (#Wynnsanity)"
+  },
+  {
+    "id": "source_5",
+    "creator_name": "MKIceAndFire",
+    "channel_handle": "@MKIceAndFire",
+    "channel_url": "https://www.youtube.com/channel/UC1bwliGvJogr7cWK0nT2Eag",
+    "subscribers": "Verified Creator",
+    "video_title": "GTA 6 Gameplay Walkthrough Part 1 FULL GAME [4K PS5 PRO] - No Commentary",
+    "video_url": "https://www.youtube.com/watch?v=YDNs_sPEcJc",
+    "video_id": "YDNs_sPEcJc",
+    "thumbnail": "https://i.ytimg.com/vi/YDNs_sPEcJc/hqdefault.jpg",
+    "duration": "4h 21m",
+    "duration_seconds": 15665,
+    "view_count": 4822469,
+    "clips_count": 0,
+    "clips": [],
+    "attribution_status": "Pending (@MKIceAndFire)",
+    "discovered_at": "2026-11-19 18:26:45"
+  },
+  {
+    "id": "source_6",
+    "creator_name": "Dattrax Plays",
+    "channel_handle": "@DattraxPlays",
+    "channel_url": "https://www.youtube.com/channel/UCELAIy1E8A-7IrUlAaGr_vA",
+    "subscribers": "Verified Creator",
+    "video_title": "EXPLORING GTA 6 First Time in INDIA!😍 GTA VI GAMEPLAY",
+    "video_url": "https://www.youtube.com/watch?v=_nSjfe3k6Ss",
+    "video_id": "_nSjfe3k6Ss",
+    "thumbnail": "https://i.ytimg.com/vi/_nSjfe3k6Ss/hqdefault.jpg",
+    "duration": "38m 12s",
+    "duration_seconds": 2292,
+    "view_count": 2065466,
+    "clips_count": 0,
+    "clips": [],
+    "attribution_status": "Pending (@DattraxPlays)",
+    "discovered_at": "2026-11-19 18:26:45"
+  },
+  {
+    "id": "source_7",
+    "creator_name": "IShowSpeed",
+    "channel_handle": "@IShowSpeed",
+    "channel_url": "https://www.youtube.com/@IShowSpeed",
+    "subscribers": "62.8M Subscribers",
+    "video_title": "🔴PLAYING GTA 6 EARLY ACCESS GAMEPLAY GET IN HERE!",
+    "video_url": "https://www.youtube.com/watch?v=qSyo5d-dVzA",
+    "video_id": "qSyo5d-dVzA",
+    "thumbnail": "https://i.ytimg.com/vi/qSyo5d-dVzA/hqdefault.jpg",
+    "duration": "23h 45m",
+    "clips_count": 25,
+    "clips": [
+      "clip_17.mp4",
+      "clip_18.mp4",
+      "clip_19.mp4",
+      "clip_20.mp4",
+      "clip_21.mp4",
+      "clip_22.mp4",
+      "clip_23.mp4",
+      "clip_24.mp4",
+      "clip_25.mp4",
+      "clip_26.mp4",
+      "clip_27.mp4",
+      "clip_28.mp4",
+      "clip_29.mp4",
+      "clip_30.mp4",
+      "clip_31.mp4",
+      "clip_32.mp4",
+      "clip_33.mp4",
+      "clip_34.mp4",
+      "clip_35.mp4",
+      "clip_36.mp4",
+      "clip_37.mp4",
+      "clip_38.mp4",
+      "clip_39.mp4",
+      "clip_40.mp4",
+      "clip_41.mp4"
+    ],
+    "attribution_status": "Credited in Description (#IShowSpeed)"
   }
 ]

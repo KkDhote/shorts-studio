@@ -20,9 +20,11 @@ bin/
 # Whisper models cache (downloaded on demand or via cloud volume)
 models/
 
-# Sensitive OAuth credentials (passed via YOUTUBE_TOKEN_JSON environment variable)
+# Sensitive OAuth and Instagram credentials (passed via env vars in cloud)
 credentials/token.json
 credentials/client_secrets.json
+credentials/instagram_config.json
+credentials/*.json
 
 # OS specific
 .DS_Store
