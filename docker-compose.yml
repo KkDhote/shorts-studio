@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  shorts-studio:
+    build: .
+    container_name: shorts-studio-app
+    restart: unless-stopped
+    ports:
+      - "5050:5050"
+    environment:
+      - PORT=5050
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./final_clips:/app/final_clips
+      - ./credentials:/app/credentials

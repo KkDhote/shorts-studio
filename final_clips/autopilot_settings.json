@@ -1,0 +1,15 @@
+{
+  "autopilot_enabled": true,
+  "shorts_per_day": 3,
+  "slots": [
+    "12:30 PM IST",
+    "05:00 PM IST",
+    "08:30 PM IST"
+  ],
+  "slot_1": "12:30 PM IST",
+  "slot_2": "05:00 PM IST",
+  "slot_3": "08:30 PM IST",
+  "fallback_timeout_minutes": 5,
+  "auto_schedule_next_peak": true,
+  "notify_on_post": true
+}

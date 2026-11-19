@@ -1,0 +1,62 @@
+[
+  {
+    "id": "source_1",
+    "creator_name": "CarryMinati",
+    "channel_handle": "@CarryMinati",
+    "channel_url": "https://www.youtube.com/@CarryMinati",
+    "subscribers": "43.5M Subscribers",
+    "video_title": "GTA VI Live Stream - Vice City First Look",
+    "video_url": "https://www.youtube.com/live/irNhWMG560k",
+    "video_id": "irNhWMG560k",
+    "thumbnail": "https://i.ytimg.com/vi/irNhWMG560k/hqdefault.jpg",
+    "duration": "10h 09m",
+    "clips_count": 4,
+    "clips": ["clip_1.mp4", "clip_2.mp4", "clip_3.mp4", "clip_4.mp4"],
+    "attribution_status": "Credited in Description (#CarryMinati)"
+  },
+  {
+    "id": "source_2",
+    "creator_name": "Mythpat",
+    "channel_handle": "@Mythpat",
+    "channel_url": "https://www.youtube.com/@Mythpat",
+    "subscribers": "15.2M Subscribers",
+    "video_title": "Welcome to Vice City! GTA 6 LIVE with Mythpat",
+    "video_url": "https://www.youtube.com/live/LMbea5SozeM",
+    "video_id": "LMbea5SozeM",
+    "thumbnail": "https://i.ytimg.com/vi/LMbea5SozeM/hqdefault.jpg",
+    "duration": "10h 09m",
+    "clips_count": 4,
+    "clips": ["clip_5.mp4", "clip_6.mp4", "clip_7.mp4", "clip_8.mp4"],
+    "attribution_status": "Credited in Description (#Mythpat)"
+  },
+  {
+    "id": "source_3",
+    "creator_name": "theRadBrad",
+    "channel_handle": "@theRadBrad",
+    "channel_url": "https://www.youtube.com/@theRadBrad",
+    "subscribers": "13.6M Subscribers",
+    "video_title": "GTA 6 Walkthrough Gameplay Part 1 - INTRO (GRAND THEFT AUTO 6)",
+    "video_url": "https://youtu.be/rQLEb0W7REo",
+    "video_id": "rQLEb0W7REo",
+    "thumbnail": "https://i.ytimg.com/vi/rQLEb0W7REo/hqdefault.jpg",
+    "duration": "1h 07m",
+    "clips_count": 4,
+    "clips": ["clip_9.mp4", "clip_10.mp4", "clip_11.mp4", "clip_12.mp4"],
+    "attribution_status": "Credited in Description (#theRadBrad)"
+  },
+  {
+    "id": "source_4",
+    "creator_name": "Wynnsanity",
+    "channel_handle": "@Wynnsanity",
+    "channel_url": "https://www.youtube.com/@Wynnsanity",
+    "subscribers": "1.42M Subscribers",
+    "video_title": "🔴 GTA 6 LIVE GAMEPLAY - WORLD PREMIERE PART 1 - PS5 PRO",
+    "video_url": "https://www.youtube.com/live/hQAHI7aD1Dk",
+    "video_id": "hQAHI7aD1Dk",
+    "thumbnail": "https://i.ytimg.com/vi/hQAHI7aD1Dk/hqdefault.jpg",
+    "duration": "11h 53m",
+    "clips_count": 4,
+    "clips": ["clip_13.mp4", "clip_14.mp4", "clip_15.mp4", "clip_16.mp4"],
+    "attribution_status": "Credited in Description (#Wynnsanity)"
+  }
+]

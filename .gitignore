@@ -1,0 +1,30 @@
+# Virtual environment
+.venv/
+env/
+venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Temp processing directory
+temp_work/
+scratch/
+
+# Local binary folder (installed via Docker/apt in cloud)
+bin/ffmpeg.exe
+bin/ffprobe.exe
+bin/cloudflared.exe
+
+# Whisper models cache (downloaded on demand or via cloud volume)
+models/
+
+# Sensitive OAuth credentials (can be passed via YOUTUBE_TOKEN_JSON environment variable)
+credentials/client_secrets.json
+
+# OS specific
+.DS_Store
+Thumbs.db

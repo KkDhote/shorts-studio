@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shorts Studio &amp; Channel Growth Hub</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+    .live-pulse { animation: pulse-subtle 2s infinite ease-in-out; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased flex flex-col font-sans">
+
+  <!-- Header Navigation -->
+  <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Brand & Channel Info -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-red-600 flex items-center justify-center font-black text-xl text-black shadow-lg shadow-amber-500/20">
+          ⚡
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
+            Shorts Studio <span class="text-xs bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded-full font-semibold">GROWTH &amp; AUTO-PILOT</span>
+          </h1>
+          <p class="text-xs text-slate-400">Channel: <span id="header-channel-name" class="font-bold text-amber-300">KULDEEPBHAI GAMER</span></p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs (3 Pages) -->
+      <nav class="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800">
+        <button id="tab-btn-clips" onclick="switchPage('clips')" class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-gradient-to-r from-amber-500 to-red-500 text-black shadow-md">
+          <span>🎬 1. Clips Studio</span>
+          <span id="badge-ready-count" class="bg-black/40 text-white text-[10px] px-1.5 py-0.2 rounded-full">15 Ready</span>
+        </button>
+        <button id="tab-btn-growth" onclick="switchPage('growth')" class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
+          <span>📈 2. Channel Growth</span>
+        </button>
+        <button id="tab-btn-sources" onclick="switchPage('sources')" class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
+          <span>📺 3. Source VODs</span>
+        </button>
+      </nav>
+
+      <!-- Auto-Pilot Indicator & Mobile Access -->
+      <div class="flex items-center gap-3">
+        <div id="autopilot-pill" class="flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 px-3.5 py-1.5 rounded-xl">
+          <div class="w-2.5 h-2.5 rounded-full bg-purple-400 live-pulse"></div>
+          <span class="text-xs font-bold text-purple-300">Auto-Pilot: <span id="autopilot-status-text">ACTIVE (3/Day)</span></span>
+        </div>
+
+        <button onclick="openMobileModal()" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3.5 py-2 rounded-xl border border-indigo-400/30 transition flex items-center gap-1.5 shadow-lg shadow-indigo-500/20">
+          📱 Phone
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="max-w-7xl mx-auto px-6 py-8 flex-1 w-full space-y-8">
+
+    <!-- ======================================================== -->
+    <!-- PAGE 1: CLIPS STUDIO (READY & POSTED) -->
+    <!-- ======================================================== -->
+    <div id="page-clips" class="space-y-6">
+
+      <!-- Subheader & Filter Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-4 p-5 bg-slate-900 border border-slate-800 rounded-3xl shadow-xl">
+        <div>
+          <h2 class="text-xl font-bold text-white">Clips Production &amp; Schedule (3 Shorts / Day)</h2>
+          <p class="text-xs text-slate-400">Review generated 9:16 vertical shorts. If you forget to post, Auto-Pilot publishes automatically at 12:30 PM, 05:00 PM, and 08:30 PM IST!</p>
+        </div>
+
+        <!-- Filter Pills -->
+        <div class="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800 text-xs">
+          <button onclick="filterClips('all')" id="filter-all" class="px-3 py-1.5 rounded-lg font-bold bg-slate-800 text-white">All Clips (<span id="count-all">0</span>)</button>
+          <button onclick="filterClips('ready')" id="filter-ready" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white">Ready to Post (<span id="count-ready">0</span>)</button>
+          <button onclick="filterClips('posted')" id="filter-posted" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white">Already Posted (<span id="count-posted">0</span>)</button>
+        </div>
+      </div>
+
+      <!-- Clips Grid -->
+      <div id="clips-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Injected via JavaScript -->
+      </div>
+
+    </div>
+
+
+    <!-- ======================================================== -->
+    <!-- PAGE 2: CHANNEL GROWTH & MONETIZATION -->
+    <!-- ======================================================== -->
+    <div id="page-growth" class="space-y-6 hidden">
+
+      <!-- Channel Overview Banner -->
+      <div class="p-6 bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-slate-800 rounded-3xl shadow-2xl flex flex-wrap items-center justify-between gap-6">
+        <div class="flex items-center gap-4">
+          <div class="w-16 h-16 rounded-2xl overflow-hidden bg-slate-800 border-2 border-amber-500 shadow-xl flex items-center justify-center font-bold text-2xl text-amber-400">
+            KG
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 id="growth-channel-title" class="text-2xl font-black text-white">KULDEEPBHAI GAMER</h2>
+              <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs px-2 py-0.5 rounded-full font-bold">VERIFIED</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Niche: GTA VI &amp; High-Retention Gaming Shorts</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-6">
+          <div class="text-center">
+            <div id="metric-subs" class="text-2xl font-black text-white">30</div>
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Subscribers</div>
+          </div>
+          <div class="h-8 w-px bg-slate-800"></div>
+          <div class="text-center">
+            <div id="metric-views" class="text-2xl font-black text-amber-400">1,427</div>
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Total Views</div>
+          </div>
+          <div class="h-8 w-px bg-slate-800"></div>
+          <div class="text-center">
+            <div id="metric-videos" class="text-2xl font-black text-indigo-400">9</div>
+            <div class="text-[11px] text-slate-400 uppercase font-semibold">Videos</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monetization & YPP Roadmap Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Subscriber Milestone -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">👥</span>
+              <h3 class="text-sm font-bold text-white">YPP Subscriber Milestone</h3>
+            </div>
+            <span id="ypp-sub-percent" class="text-xs font-extrabold text-amber-400">3.0%</span>
+          </div>
+
+          <div class="w-full bg-slate-950 rounded-full h-3 overflow-hidden border border-slate-800">
+            <div id="ypp-sub-bar" class="bg-gradient-to-r from-amber-500 to-red-500 h-full rounded-full transition-all duration-500" style="width: 3%"></div>
+          </div>
+
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span>Current: <strong id="ypp-sub-curr" class="text-white">30</strong></span>
+            <span>Target: <strong class="text-white">1,000 Subs</strong></span>
+          </div>
+          <p class="text-[11px] text-slate-500">Posting 3 vertical shorts daily is estimated to reach 1,000 subscribers in 25–35 days.</p>
+        </div>
+
+        <!-- Shorts Views Milestone -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">🔥</span>
+              <h3 class="text-sm font-bold text-white">Shorts Monetization Views (10M Target)</h3>
+            </div>
+            <span id="ypp-views-percent" class="text-xs font-extrabold text-emerald-400">0.02%</span>
+          </div>
+
+          <div class="w-full bg-slate-950 rounded-full h-3 overflow-hidden border border-slate-800">
+            <div id="ypp-views-bar" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-500" style="width: 0.2%"></div>
+          </div>
+
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span>Current Views: <strong id="ypp-views-curr" class="text-white">1,427</strong></span>
+            <span>Target: <strong class="text-white">10,000,000 Views</strong></span>
+          </div>
+          <p class="text-[11px] text-slate-500">Affiliate deals in top description lines monetize immediately while views scale.</p>
+        </div>
+
+      </div>
+
+      <!-- Auto-Pilot Autonomous Configuration -->
+      <div class="bg-purple-950/30 border border-purple-500/30 rounded-3xl p-6 space-y-4 shadow-xl">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-2xl text-purple-400">
+              🤖
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white">Autonomous Auto-Pilot Settings</h3>
+              <p class="text-xs text-purple-300">If you forget to post your scheduled short, the agent autonomously publishes it for you!</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="autopilot-toggle" checked onchange="toggleAutopilot(this.checked)" class="sr-only peer">
+              <div class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+              <span class="ml-3 text-xs font-bold text-white">Auto-Post If I Forget (3/Day)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-1">
+            <div class="text-xs font-bold text-slate-300">Grace Period</div>
+            <p class="text-[11px] text-slate-500">Waits 5 minutes past scheduled time before auto-posting.</p>
+          </div>
+          <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-1">
+            <div class="text-xs font-bold text-slate-300">3 Daily Peak Windows</div>
+            <p class="text-[11px] text-slate-500">12:30 PM (Lunch), 05:00 PM (After-School), 08:30 PM (Night).</p>
+          </div>
+          <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-1">
+            <div class="text-xs font-bold text-slate-300">Algorithmic Safeguard</div>
+            <p class="text-[11px] text-slate-500">Strictly caps at 3 uploads daily to prevent cannibalization.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Uploads Performance Table -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-bold text-white">Recent Published Shorts Performance</h3>
+          <span class="text-xs text-slate-400">Live data from YouTube Data API</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400 font-bold uppercase text-[10px]">
+                <th class="py-3 px-4">Video</th>
+                <th class="py-3 px-4">Date</th>
+                <th class="py-3 px-4">Views</th>
+                <th class="py-3 px-4">Likes</th>
+                <th class="py-3 px-4">Comments</th>
+                <th class="py-3 px-4 text-right">Link</th>
+              </tr>
+            </thead>
+            <tbody id="recent-videos-tbody" class="divide-y divide-slate-800/60 text-slate-300">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- ======================================================== -->
+    <!-- PAGE 3: SOURCE VODS & CREATOR ATTRIBUTION HUB -->
+    <!-- ======================================================== -->
+    <div id="page-sources" class="space-y-6 hidden">
+
+      <!-- Subheader -->
+      <div class="flex flex-wrap items-center justify-between gap-4 p-5 bg-slate-900 border border-slate-800 rounded-3xl shadow-xl">
+        <div>
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span>Original Streams &amp; Creator Channels</span>
+            <span class="bg-indigo-500/20 text-indigo-400 text-xs px-2.5 py-0.5 rounded-full font-bold border border-indigo-500/30">ATTRIBUTION HUB</span>
+          </h2>
+          <p class="text-xs text-slate-400">Track original YouTube streams being used, monitor creator channels for new livestreams, and maintain fair-use attribution.</p>
+        </div>
+
+        <button onclick="loadSourcesData()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-2 rounded-xl border border-slate-700 transition flex items-center gap-1.5">
+          🔄 Sync Channels
+        </button>
+      </div>
+
+      <!-- Sources Grid -->
+      <div id="sources-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Rendered via JS -->
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Interactive Confirmation & Approval Modal -->
+  <div id="approval-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+    <div class="bg-slate-900 border border-amber-500/40 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-5 animate-in fade-in duration-200">
+      
+      <div class="flex items-start justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-xl text-amber-400">
+            🔔
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white">Confirmation Required</h3>
+            <p class="text-xs text-slate-400">Ready to publish to <span class="font-bold text-amber-300">KULDEEPBHAI GAMER</span>?</p>
+          </div>
+        </div>
+        <button onclick="closeApprovalModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
+      </div>
+
+      <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 space-y-3">
+        <div class="aspect-[9/16] max-h-56 mx-auto rounded-xl overflow-hidden bg-black flex items-center justify-center">
+          <video id="modal-video-preview" controls class="h-full w-auto object-contain"></video>
+        </div>
+        <div>
+          <div class="text-xs text-slate-400 font-semibold">Title to be Published:</div>
+          <div id="modal-clip-title" class="text-sm font-bold text-white line-clamp-2"></div>
+        </div>
+        <div>
+          <div class="text-xs text-slate-400 font-semibold">Profit Deal / Affiliate Hook:</div>
+          <div id="modal-pinned-comment" class="text-xs text-amber-300 italic line-clamp-2"></div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <button onclick="closeApprovalModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2.5 rounded-xl font-medium transition">
+          Cancel
+        </button>
+        <button id="modal-approve-btn" onclick="confirmAndPublish()" class="text-xs bg-gradient-to-r from-amber-500 to-red-500 hover:from-amber-400 hover:to-red-400 text-black font-extrabold px-6 py-2.5 rounded-xl shadow-lg shadow-amber-500/20 flex items-center gap-2 transition">
+          <span>🚀 Yes, Approve &amp; Post Live</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mobile Access Modal -->
+  <div id="mobile-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+    <div class="bg-slate-900 border border-indigo-500/40 rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">📱 Phone Studio Access</h3>
+        <button onclick="closeMobileModal()" class="text-slate-400 hover:text-white text-xl font-bold">&times;</button>
+      </div>
+
+      <div class="bg-white p-3 rounded-2xl inline-block shadow-lg">
+        <img src="/static/mobile_qr.png" alt="Scan QR Code" class="w-48 h-48 mx-auto" />
+      </div>
+
+      <div class="space-y-1">
+        <p class="text-xs text-slate-300 font-semibold">Scan with your phone's camera</p>
+        <p class="text-[11px] text-slate-500">Works anywhere over encrypted HTTPS tunnel</p>
+      </div>
+
+      <div class="p-2.5 bg-slate-950 rounded-xl border border-slate-800 text-xs font-mono text-indigo-300 break-all select-all">
+        https://office-pal-nov-emotional.trycloudflare.com
+      </div>
+
+      <button onclick="closeMobileModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs py-2 rounded-xl transition">
+        Close
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let activeClips = [];
+    let currentFilter = 'all';
+    let pendingClipFile = null;
+
+    function switchPage(page) {
+      const pageClips = document.getElementById('page-clips');
+      const pageGrowth = document.getElementById('page-growth');
+      const pageSources = document.getElementById('page-sources');
+
+      const btnClips = document.getElementById('tab-btn-clips');
+      const btnGrowth = document.getElementById('tab-btn-growth');
+      const btnSources = document.getElementById('tab-btn-sources');
+
+      // Hide all
+      pageClips.classList.add('hidden');
+      pageGrowth.classList.add('hidden');
+      pageSources.classList.add('hidden');
+
+      btnClips.className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white";
+      btnGrowth.className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white";
+      btnSources.className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white";
+
+      if (page === 'clips') {
+        pageClips.classList.remove('hidden');
+        btnClips.className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-gradient-to-r from-amber-500 to-red-500 text-black shadow-md";
+      } else if (page === 'growth') {
+        pageGrowth.classList.remove('hidden');
+        btnGrowth.className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-gradient-to-r from-amber-500 to-red-500 text-black shadow-md";
+        loadGrowthData();
+      } else if (page === 'sources') {
+        pageSources.classList.remove('hidden');
+        btnSources.className = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-gradient-to-r from-amber-500 to-red-500 text-black shadow-md";
+        loadSourcesData();
+      }
+    }
+
+    async function loadData() {
+      try {
+        const [clipsRes, statusRes] = await Promise.all([
+          fetch('/api/clips').then(r => r.json()),
+          fetch('/api/status').then(r => r.json())
+        ]);
+
+        activeClips = clipsRes.clips;
+        const total = activeClips.length;
+        const posted = activeClips.filter(c => c.uploaded).length;
+        const ready = total - posted;
+
+        document.getElementById('count-all').innerText = total;
+        document.getElementById('count-ready').innerText = ready;
+        document.getElementById('count-posted').innerText = posted;
+        document.getElementById('badge-ready-count').innerText = `${ready} Ready`;
+
+        const autoPill = document.getElementById('autopilot-status-text');
+        if (statusRes.autopilot_enabled) {
+          autoPill.innerText = "ACTIVE (3/Day)";
+          document.getElementById('autopilot-toggle').checked = true;
+        } else {
+          autoPill.innerText = "PAUSED";
+          document.getElementById('autopilot-toggle').checked = false;
+        }
+
+        renderClips();
+      } catch (err) {
+        console.error("Error loading clips:", err);
+      }
+    }
+
+    function filterClips(type) {
+      currentFilter = type;
+      ['all', 'ready', 'posted'].forEach(t => {
+        const btn = document.getElementById(`filter-${t}`);
+        if (t === type) {
+          btn.className = "px-3 py-1.5 rounded-lg font-bold bg-slate-800 text-white";
+        } else {
+          btn.className = "px-3 py-1.5 rounded-lg text-slate-400 hover:text-white";
+        }
+      });
+      renderClips();
+    }
+
+    function renderClips() {
+      const container = document.getElementById('clips-grid');
+      container.innerHTML = '';
+
+      const filtered = activeClips.filter(clip => {
+        if (currentFilter === 'ready') return !clip.uploaded;
+        if (currentFilter === 'posted') return clip.uploaded;
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="col-span-2 text-center py-12 text-slate-500 text-xs">No clips match this filter.</div>`;
+        return;
+      }
+
+      filtered.forEach(clip => {
+        const isUploaded = clip.uploaded;
+        const videoSrc = `/videos/${clip.filename}`;
+
+        const card = document.createElement('div');
+        card.className = `bg-slate-900 border ${isUploaded ? 'border-emerald-500/40 shadow-emerald-500/5' : 'border-slate-800 hover:border-slate-700'} rounded-3xl p-5 space-y-4 shadow-xl transition flex flex-col justify-between`;
+
+        card.innerHTML = `
+          <div class="flex flex-col md:flex-row gap-4 items-start">
+            <div class="w-full md:w-36 aspect-[9/16] rounded-2xl overflow-hidden bg-black flex-shrink-0 relative border border-slate-800">
+              <video src="${videoSrc}" controls preload="metadata" class="w-full h-full object-cover"></video>
+              ${isUploaded 
+                ? '<div class="absolute top-2 left-2 bg-emerald-500 text-black text-[10px] font-black px-2 py-0.5 rounded-full shadow">● LIVE</div>' 
+                : '<div class="absolute top-2 left-2 bg-amber-500 text-black text-[10px] font-black px-2 py-0.5 rounded-full shadow">READY</div>'}
+            </div>
+
+            <div class="flex-1 space-y-3 w-full">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-mono text-slate-400">${clip.filename} (${clip.size_mb} MB)</span>
+                ${isUploaded ? `<a href="${clip.video_url}" target="_blank" class="text-xs text-emerald-400 hover:underline font-bold flex items-center gap-1">🔗 View on YouTube &rarr;</a>` : ''}
+              </div>
+
+              <div>
+                <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Title</label>
+                <input id="title-${clip.filename}" type="text" value="${escapeHtml(clip.title)}" ${isUploaded ? 'disabled' : ''} class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-amber-500 disabled:opacity-60" />
+              </div>
+
+              <div>
+                <label class="text-[11px] font-bold text-amber-400 uppercase tracking-wider flex items-center justify-between mb-1">
+                  <span>💰 Profit Deal (Affiliate / Sponsor)</span>
+                </label>
+                <input id="affiliate-${clip.filename}" type="text" placeholder="e.g. Use Code KULDEEP for 20% off" value="${escapeHtml(clip.affiliate_deal || '')}" ${isUploaded ? 'disabled' : ''} class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-amber-200 placeholder-slate-600 focus:outline-none focus:border-amber-500 disabled:opacity-60" />
+              </div>
+
+              <div>
+                <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between mb-1">
+                  <span>⏰ Scheduled Drop Slot (3/Day)</span>
+                  <span class="text-[10px] text-purple-400 font-bold">Auto-posts if you forget</span>
+                </label>
+                <select id="schedule-${clip.filename}" ${isUploaded ? 'disabled' : ''} onchange="saveClipSchedule('${clip.file}', '${clip.filename}')" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-purple-500 disabled:opacity-60">
+                  <option value="" ${!clip.schedule ? 'selected' : ''}>Immediate (Manual Review)</option>
+                  <option value="12:30 PM IST" ${clip.schedule === '12:30 PM IST' ? 'selected' : ''}>12:30 PM IST (Slot 1: Afternoon Rush)</option>
+                  <option value="05:00 PM IST" ${clip.schedule === '05:00 PM IST' ? 'selected' : ''}>05:00 PM IST (Slot 2: Evening Peak)</option>
+                  <option value="08:30 PM IST" ${clip.schedule === '08:30 PM IST' ? 'selected' : ''}>08:30 PM IST (Slot 3: Prime Night Binge)</option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between gap-3">
+            <div class="text-[11px] text-slate-400">
+              ${isUploaded 
+                ? (clip.auto_posted ? '<span class="text-purple-400 font-semibold">🤖 Posted Autonomously by Auto-Pilot</span>' : '<span class="text-emerald-400 font-semibold">Published Live</span>')
+                : `<span class="text-amber-400 font-medium">⏳ Scheduled: <strong>${clip.schedule || 'Pending'}</strong></span>`
+              }
+            </div>
+
+            <div class="flex items-center gap-2">
+              ${isUploaded 
+                ? `<span class="text-xs text-emerald-400 font-bold px-3 py-1.5 bg-emerald-500/10 rounded-xl border border-emerald-500/20">✅ On Channel</span>`
+                : `<button onclick="openApprovalModal('${clip.file}')" class="text-xs bg-gradient-to-r from-amber-500 to-red-500 hover:from-amber-400 hover:to-red-400 text-black font-extrabold px-4 py-2 rounded-xl shadow-lg shadow-amber-500/10 flex items-center gap-1.5 transition">
+                    <span>🚀 Review &amp; Post</span>
+                   </button>`
+              }
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    async function saveClipSchedule(filePath, filename) {
+      const schedule = document.getElementById(`schedule-${filename}`).value;
+      const title = document.getElementById(`title-${filename}`).value;
+      const affiliate = document.getElementById(`affiliate-${filename}`).value;
+
+      await fetch('/api/update-clip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ file: filePath, schedule, title, affiliate_deal: affiliate })
+      });
+      loadData();
+    }
+
+    async function loadGrowthData() {
+      try {
+        const res = await fetch('/api/growth').then(r => r.json());
+        if (!res.connected) return;
+
+        const ch = res.channel;
+        document.getElementById('metric-subs').innerText = ch.subscribers;
+        document.getElementById('metric-views').innerText = ch.total_views.toLocaleString();
+        document.getElementById('metric-videos').innerText = ch.total_videos;
+
+        const m = res.milestones;
+        document.getElementById('ypp-sub-percent').innerText = `${m.subscribers.percent}%`;
+        document.getElementById('ypp-sub-bar').style.width = `${m.subscribers.percent}%`;
+        document.getElementById('ypp-sub-curr').innerText = m.subscribers.current;
+
+        document.getElementById('ypp-views-percent').innerText = `${m.shorts_views.percent}%`;
+        document.getElementById('ypp-views-bar').style.width = `${Math.max(m.shorts_views.percent, 0.5)}%`;
+        document.getElementById('ypp-views-curr').innerText = m.shorts_views.current.toLocaleString();
+
+        const tbody = document.getElementById('recent-videos-tbody');
+        tbody.innerHTML = '';
+        res.recent_videos.forEach(v => {
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-slate-800/40 transition";
+          tr.innerHTML = `
+            <td class="py-3 px-4 flex items-center gap-3">
+              <img src="${v.thumbnail}" class="w-10 h-7 rounded object-cover border border-slate-700" />
+              <span class="font-bold text-white line-clamp-1">${v.title}</span>
+            </td>
+            <td class="py-3 px-4 text-slate-400">${v.published_at}</td>
+            <td class="py-3 px-4 font-bold text-amber-400">${v.views.toLocaleString()}</td>
+            <td class="py-3 px-4 text-slate-300">${v.likes}</td>
+            <td class="py-3 px-4 text-slate-300">${v.comments}</td>
+            <td class="py-3 px-4 text-right">
+              <a href="${v.url}" target="_blank" class="text-indigo-400 hover:underline font-bold">Watch &rarr;</a>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+      } catch (err) {
+        console.error("Error loading growth data:", err);
+      }
+    }
+
+    async function loadSourcesData() {
+      try {
+        const res = await fetch('/api/sources').then(r => r.json());
+        const container = document.getElementById('sources-grid');
+        container.innerHTML = '';
+
+        if (!res.sources || res.sources.length === 0) {
+          container.innerHTML = `<div class="col-span-2 text-center py-12 text-slate-500 text-xs">No source VODs registered yet.</div>`;
+          return;
+        }
+
+        res.sources.forEach(src => {
+          const card = document.createElement('div');
+          card.className = "bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-3xl p-6 space-y-4 shadow-xl transition flex flex-col justify-between";
+
+          const clipBadges = src.clips.map(c => `<span class="bg-slate-950 border border-slate-800 text-[11px] font-mono text-amber-300 px-2 py-0.5 rounded-lg">${c}</span>`).join(' ');
+
+          card.innerHTML = `
+            <div class="space-y-4">
+              <!-- Creator Header -->
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center font-bold text-lg text-indigo-300">
+                    ${src.creator_name.substring(0, 2).toUpperCase()}
+                  </div>
+                  <div>
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                      <span>${src.creator_name}</span>
+                      <span class="text-[11px] text-slate-400 font-normal">(${src.channel_handle})</span>
+                    </h3>
+                    <div class="text-xs text-indigo-400 font-semibold">${src.subscribers}</div>
+                  </div>
+                </div>
+
+                <a href="${src.channel_url}" target="_blank" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-3 py-1.5 rounded-xl border border-slate-700 transition flex items-center gap-1">
+                  Visit Channel &rarr;
+                </a>
+              </div>
+
+              <!-- Original Video Preview Banner -->
+              <div class="flex flex-col sm:flex-row gap-3 bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                <img src="${src.thumbnail}" class="w-full sm:w-28 h-18 rounded-xl object-cover border border-slate-800 flex-shrink-0" />
+                <div class="space-y-1">
+                  <div class="text-xs font-bold text-white line-clamp-2">${src.video_title}</div>
+                  <div class="text-[11px] text-slate-400">Duration: <strong class="text-slate-300">${src.duration}</strong></div>
+                  <a href="${src.video_url}" target="_blank" class="text-[11px] text-amber-400 hover:underline font-bold inline-block">🔗 Watch Original VOD on YouTube &rarr;</a>
+                </div>
+              </div>
+
+              <!-- Clips Extracted List -->
+              <div class="space-y-1.5">
+                <div class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+                  <span>Clips Cut From This Stream (${src.clips_count})</span>
+                </div>
+                <div class="flex flex-wrap gap-1.5 pt-1">
+                  ${clipBadges}
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer Attribution Status -->
+            <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+              <span class="text-[11px] text-emerald-400 font-semibold flex items-center gap-1">
+                <span>🛡️ ${src.attribution_status}</span>
+              </span>
+              <a href="${src.channel_url}/videos" target="_blank" class="text-[11px] text-indigo-400 hover:underline font-bold">
+                Check Latest VODs &rarr;
+              </a>
+            </div>
+          `;
+
+          container.appendChild(card);
+        });
+
+      } catch (err) {
+        console.error("Error loading sources:", err);
+      }
+    }
+
+    async function toggleAutopilot(enabled) {
+      await fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ autopilot_enabled: enabled })
+      });
+      loadData();
+    }
+
+    function openApprovalModal(filePath) {
+      const clip = activeClips.find(c => c.file === filePath);
+      if (!clip) return;
+
+      pendingClipFile = filePath;
+      document.getElementById('modal-video-preview').src = `/videos/${clip.filename}`;
+      
+      const currentTitle = document.getElementById(`title-${clip.filename}`) ? document.getElementById(`title-${clip.filename}`).value : clip.title;
+      const currentAffiliate = document.getElementById(`affiliate-${clip.filename}`) ? document.getElementById(`affiliate-${clip.filename}`).value : clip.affiliate_deal;
+
+      document.getElementById('modal-clip-title').innerText = currentTitle;
+      document.getElementById('modal-pinned-comment').innerText = currentAffiliate ? `Deal: "${currentAffiliate}"` : `Default: "${clip.pinned_comment}"`;
+
+      const modal = document.getElementById('approval-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeApprovalModal() {
+      const modal = document.getElementById('approval-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      pendingClipFile = null;
+    }
+
+    async function confirmAndPublish() {
+      if (!pendingClipFile) return;
+
+      const clip = activeClips.find(c => c.file === pendingClipFile);
+      const filename = clip.filename;
+
+      const title = document.getElementById(`title-${filename}`).value;
+      const affiliate = document.getElementById(`affiliate-${filename}`).value;
+
+      const btn = document.getElementById('modal-approve-btn');
+      btn.disabled = true;
+      btn.innerHTML = `<span>⏳ Uploading to YouTube...</span>`;
+
+      try {
+        const res = await fetch('/api/publish-now', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            file: pendingClipFile,
+            title: title,
+            affiliate_deal: affiliate,
+            privacy: 'public'
+          })
+        }).then(r => r.json());
+
+        if (res.status === 'success') {
+          alert(`🎉 SUCCESS! Clip published to YouTube:\n${res.result.video_url}`);
+          closeApprovalModal();
+          loadData();
+        } else {
+          alert(`Upload failed: ${res.message || 'Unknown error'}`);
+        }
+      } catch (err) {
+        alert(`Error communicating with backend: ${err}`);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>🚀 Yes, Approve &amp; Post Live</span>`;
+      }
+    }
+
+    function openMobileModal() {
+      const m = document.getElementById('mobile-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+    function closeMobileModal() {
+      const m = document.getElementById('mobile-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // Initialize
+    loadData();
+  </script>
+
+</body>
+</html>
