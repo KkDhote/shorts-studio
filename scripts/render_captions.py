@@ -150,6 +150,8 @@ PlayResY: 1920
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
 Style: Default,{font_name},{font_size},{white_ass},{highlight_ass},{stroke_ass},{shadow_ass},-1,0,0,0,100,100,2,0,1,5,3,2,60,60,{margin_v},1
+Style: TopPill,Arial Black,34,{white_ass},{highlight_ass},{stroke_ass},{shadow_ass},-1,0,0,0,100,100,1,0,1,4,2,8,40,40,160,1
+Style: OutroCTA,Arial Black,52,{highlight_ass},{white_ass},{stroke_ass},{shadow_ass},-1,0,0,0,108,108,2,0,1,6,4,2,50,50,380,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -192,6 +194,21 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 
             line_text = " ".join(rendered_words)
             dialogue_lines.append(f"Dialogue: 0,{start_ass},{end_ass},Default,,0,0,0,,{line_text}")
+
+    # Add Subscribe & Comment reminder badge throughout the clip
+    clip_duration = words[-1]["end"] if words else 35.0
+    cta_start = format_ass_time(0.5)
+    cta_end = format_ass_time(clip_duration)
+    dialogue_lines.append(
+        f"Dialogue: 1,{cta_start},{cta_end},TopPill,,0,0,0,,{{\\bord4\\shad2\\c{highlight_ass}}}🔔 SUBSCRIBE {{\\c{white_ass}}}& {{\\c{highlight_ass}}}COMMENT 👇"
+    )
+
+    # In final 4.5 seconds of the short, add prominent outro CTA
+    if clip_duration > 6.0:
+        outro_start = format_ass_time(max(0.0, clip_duration - 4.5))
+        dialogue_lines.append(
+            f"Dialogue: 2,{outro_start},{cta_end},OutroCTA,,0,0,0,,{{\\an2\\pos(540,1400)\\bord5\\shad3\\c{highlight_ass}}}🔔 SUBSCRIBE FOR DAILY GTA 6!\\N{{\\fs40\\c{white_ass}}}💬 DROP A COMMENT BELOW 👇"
+        )
 
     full_ass_content = header + "\n".join(dialogue_lines) + "\n"
 
