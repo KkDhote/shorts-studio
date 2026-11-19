@@ -1,5 +1,5 @@
 # Multi-stage production container for Shorts Studio
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 # Install system dependencies & ffmpeg
 RUN apt-get update && apt-get install -y --no-install-recommends \
