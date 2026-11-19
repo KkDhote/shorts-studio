@@ -155,5 +155,31 @@
       "clip_41.mp4"
     ],
     "attribution_status": "Credited in Description (#IShowSpeed)"
+  },
+  {
+    "id": "source_8",
+    "creator_name": "Techno Gamerz",
+    "channel_handle": "@TechnoGamerzOfficial",
+    "channel_url": "https://www.youtube.com/@TechnoGamerzOfficial",
+    "subscribers": "43.1M Subscribers",
+    "video_title": "MY FIRST DAY IN VICE CITY | GTA 6 GAMEPLAY #1",
+    "video_url": "https://www.youtube.com/watch?v=169ZzvPxvvM",
+    "video_id": "169ZzvPxvvM",
+    "thumbnail": "https://i.ytimg.com/vi/169ZzvPxvvM/hqdefault.jpg",
+    "duration": "2h 07m",
+    "clips_count": 10,
+    "clips": [
+      "clip_42.mp4",
+      "clip_43.mp4",
+      "clip_44.mp4",
+      "clip_45.mp4",
+      "clip_46.mp4",
+      "clip_47.mp4",
+      "clip_48.mp4",
+      "clip_49.mp4",
+      "clip_50.mp4",
+      "clip_51.mp4"
+    ],
+    "attribution_status": "Credited in Description (#TechnoGamerz)"
   }
 ]
