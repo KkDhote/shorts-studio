@@ -15,9 +15,7 @@ temp_work/
 scratch/
 
 # Local binary folder (installed via Docker/apt in cloud)
-bin/ffmpeg.exe
-bin/ffprobe.exe
-bin/cloudflared.exe
+bin/
 
 # Whisper models cache (downloaded on demand or via cloud volume)
 models/
