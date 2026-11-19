@@ -66,9 +66,54 @@ def load_queue():
                 return []
     return []
 
-def save_queue(queue):
+_sync_lock = threading.Lock()
+
+def trigger_git_cloud_sync(reason="Queue or clip update"):
+    """
+    Spawns a background thread to auto-commit and push changes to GitHub
+    so that Render automatically updates without manual intervention!
+    """
+    def _sync_worker():
+        with _sync_lock:
+            time.sleep(2)  # small debounce to aggregate rapid changes
+            try:
+                check_git = subprocess.run(["git", "rev-parse", "--is-inside-work-tree"], cwd=str(BASE_DIR), capture_output=True, timeout=10)
+                if check_git.returncode != 0:
+                    return
+
+                # Stage queue, sources registry, and web files
+                subprocess.run(
+                    ["git", "add", "final_clips/upload_queue.json", "final_clips/sources_registry.json", "web/app.py", "web/static/index.html"],
+                    cwd=str(BASE_DIR),
+                    capture_output=True,
+                    timeout=30
+                )
+
+                diff = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=str(BASE_DIR), capture_output=True, timeout=10)
+                if diff.returncode != 0:  # Has changes
+                    now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    commit_res = subprocess.run(
+                        ["git", "commit", "-m", f"Auto-Sync: {reason} [{now_str}]"],
+                        cwd=str(BASE_DIR),
+                        capture_output=True,
+                        timeout=30
+                    )
+                    if commit_res.returncode == 0:
+                        push_res = subprocess.run(["git", "push", "origin", "main"], cwd=str(BASE_DIR), capture_output=True, timeout=60)
+                        if push_res.returncode == 0:
+                            print(f"[Auto-Sync] 🚀 Auto-pushed to GitHub: {reason} — Render is updating live!", flush=True)
+                        else:
+                            print(f"[Auto-Sync] Push notice: {push_res.stderr.decode('utf-8', 'ignore').strip()}", flush=True)
+            except Exception as e:
+                print(f"[Auto-Sync] Note: {e}", file=sys.stderr)
+
+    threading.Thread(target=_sync_worker, daemon=True).start()
+
+def save_queue(queue, auto_sync=True):
     with open(MANIFEST_FILE, "w", encoding="utf-8") as f:
         json.dump(queue, f, indent=2, ensure_ascii=False)
+    if auto_sync:
+        trigger_git_cloud_sync("Upload queue updated")
 
 def log_autopilot_event(event):
     history = []
@@ -492,6 +537,156 @@ def api_sources():
         except Exception as e:
             return jsonify({"status": "error", "message": str(e)}), 500
     return jsonify({"status": "success", "sources": []})
+
+@app.route("/api/add-clip", methods=["POST"])
+def api_add_clip():
+    """
+    Manually add or schedule any new clip into the master queue.
+    Automatically assigns next peak retention drop slot and triggers cloud auto-sync!
+    """
+    data = request.json or {}
+    title = data.get("title", "").strip()
+    if not title:
+        return jsonify({"error": "Title is required"}), 400
+
+    queue = load_queue()
+
+    # Determine next clip ID number
+    existing_nums = []
+    for item in queue:
+        f = item.get("file", "")
+        base = os.path.splitext(os.path.basename(f))[0]
+        if base.startswith("clip_") and base[5:].isdigit():
+            existing_nums.append(int(base[5:]))
+    next_num = max(existing_nums, default=0) + 1
+    clip_id = f"clip_{next_num}"
+    rel_file = data.get("file") or f"final_clips/{clip_id}.mp4"
+
+    new_item = {
+        "file": rel_file,
+        "title": title,
+        "description": data.get("description", f"{title}\n\n#Shorts #Gaming #GTA6"),
+        "tags": data.get("tags", ["Shorts", "GTA6", "Gaming"]),
+        "privacy": data.get("privacy", "public"),
+        "category": "20",
+        "uploaded": False,
+        "pinned_comment": data.get("pinned_comment", "🔥 Which moment was your favorite? Subscribe for daily GTA VI Shorts!"),
+        "affiliate_deal": data.get("affiliate_deal", "")
+    }
+
+    custom_slot = data.get("schedule")
+    if custom_slot:
+        new_item["schedule"] = custom_slot
+        new_item["slot_label"] = custom_slot
+    else:
+        allocated = allocate_slots_for_new_clips([new_item], MANIFEST_FILE)
+        if allocated:
+            new_item = allocated[0]
+
+    queue.append(new_item)
+    save_queue(queue, auto_sync=True)
+    return jsonify({
+        "status": "success",
+        "clip": new_item,
+        "message": f"Clip '{title}' added and scheduled for {new_item.get('slot_label')}! Cloud Auto-Sync triggered."
+    })
+
+@app.route("/api/ingest-video", methods=["POST"])
+def api_ingest_video():
+    """
+    Ingest any YouTube video URL.
+    Extracts metadata via yt-dlp, schedules viral clip slots, registers the source,
+    and automatically triggers Git push & Render deployment!
+    """
+    data = request.json or {}
+    video_url = data.get("url", "").strip()
+    if not video_url:
+        return jsonify({"error": "Video URL is required"}), 400
+
+    moments_count = int(data.get("moments_count", 5))
+
+    try:
+        cmd = [sys.executable, "-m", "yt_dlp", "--skip-download", "--dump-single-json", video_url]
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        meta = json.loads(res.stdout) if res.stdout else {}
+    except Exception as e:
+        return jsonify({"error": f"Failed to inspect URL: {e}"}), 400
+
+    title = meta.get("title", "Ingested Stream")
+    uploader = meta.get("uploader", "Creator")
+    duration = meta.get("duration", 0)
+
+    # Auto-register source in sources_registry.json
+    sources_path = FINAL_CLIPS_DIR / "sources_registry.json"
+    sources = []
+    if sources_path.exists():
+        try:
+            with open(sources_path, "r", encoding="utf-8") as f:
+                sources = json.load(f)
+        except Exception:
+            sources = []
+
+    queue = load_queue()
+    existing_nums = []
+    for item in queue:
+        f = item.get("file", "")
+        base = os.path.splitext(os.path.basename(f))[0]
+        if base.startswith("clip_") and base[5:].isdigit():
+            existing_nums.append(int(base[5:]))
+    next_num = max(existing_nums, default=0) + 1
+
+    clip_names = [f"clip_{next_num + i}.mp4" for i in range(moments_count)]
+
+    source_entry = {
+        "id": f"source_{len(sources) + 1}",
+        "creator_name": uploader,
+        "channel_handle": f"@{uploader.replace(' ', '')}",
+        "channel_url": meta.get("channel_url", video_url),
+        "subscribers": "Verified Creator",
+        "video_title": title,
+        "video_url": video_url,
+        "video_id": meta.get("id", ""),
+        "thumbnail": meta.get("thumbnail", ""),
+        "duration": f"{int(duration // 3600)}h {int((duration % 3600) // 60):02d}m" if duration > 3600 else f"{int(duration // 60)}m {int(duration % 60):02d}s",
+        "clips_count": moments_count,
+        "clips": clip_names,
+        "attribution_status": f"Credited in Description (#{uploader.replace(' ', '')})"
+    }
+    sources.append(source_entry)
+    with open(sources_path, "w", encoding="utf-8") as f:
+        json.dump(sources, f, indent=2, ensure_ascii=False)
+
+    # Allocate slots for the moments
+    new_items = []
+    for i in range(moments_count):
+        clip_num = next_num + i
+        new_items.append({
+            "file": f"final_clips/clip_{clip_num}.mp4",
+            "title": f"{uploader.upper()} BEST MOMENT #{i+1}! 🎮🔥 #shorts",
+            "description": f"Epic highlight from {uploader} playing GTA 6!\n\n#GTA6 #{uploader.replace(' ', '')} #Shorts #Gaming",
+            "tags": ["GTA6", uploader.replace(" ", ""), "Gaming", "Shorts", "ViceCity"],
+            "privacy": "public",
+            "category": "20",
+            "uploaded": False,
+            "pinned_comment": f"🔥 Drop a like if you watch {uploader}! Subscribe for daily GTA 6 Shorts!"
+        })
+
+    allocated = allocate_slots_for_new_clips(new_items, MANIFEST_FILE)
+    for c in allocated:
+        queue.append(c)
+    save_queue(queue, auto_sync=True)
+
+    return jsonify({
+        "status": "success",
+        "message": f"Successfully ingested '{title}' from {uploader}! Scheduled {moments_count} slots. Render is updating live!",
+        "clips_added": len(allocated)
+    })
+
+@app.route("/api/sync-now", methods=["POST"])
+def api_sync_now():
+    """Manual sync button to push all queue updates to GitHub & Render immediately."""
+    trigger_git_cloud_sync("Manual trigger from Shorts Studio UI")
+    return jsonify({"status": "success", "message": "Cloud sync triggered to Render!"})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5050))
