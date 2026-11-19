@@ -35,12 +35,16 @@
     ],
     "privacy": "public",
     "category": "20",
-    "uploaded": false,
+    "uploaded": true,
     "schedule": "05:00 PM IST",
     "slot_label": "Nov 19 - Slot 2: Evening Peak (05:00 PM IST)",
     "affiliate_deal": "Use code KULDEEP for 15% off at GamingGear.in",
     "pinned_comment": "🚤 Would you escape through the swamp or open ocean? Drop a comment!",
-    "scheduled_date": "2026-11-19"
+    "scheduled_date": "2026-11-19",
+    "video_id": "TD1pyeNfvKM",
+    "video_url": "https://youtube.com/shorts/TD1pyeNfvKM",
+    "posted_at": "2026-11-19 01:29:25 PM IST",
+    "auto_posted": false
   },
   {
     "file": "final_clips/clip_3.mp4",

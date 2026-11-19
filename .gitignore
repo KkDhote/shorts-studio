@@ -20,7 +20,8 @@ bin/
 # Whisper models cache (downloaded on demand or via cloud volume)
 models/
 
-# Sensitive OAuth credentials (can be passed via YOUTUBE_TOKEN_JSON environment variable)
+# Sensitive OAuth credentials (passed via YOUTUBE_TOKEN_JSON environment variable)
+credentials/token.json
 credentials/client_secrets.json
 
 # OS specific
