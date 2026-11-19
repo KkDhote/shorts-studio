@@ -167,15 +167,23 @@
       "MythpatGTA",
       "GrandTheftAuto6",
       "Shorts",
-      "Gaming"
+      "Gaming",
+      "GTA6",
+      "GTAVI",
+      "Grand Theft Auto VI",
+      "YouTube Shorts"
     ],
     "privacy": "public",
     "category": "20",
-    "uploaded": false,
+    "uploaded": true,
     "schedule": "12:30 PM IST",
     "slot_label": "Nov 21 - Slot 1: Afternoon Rush (12:30 PM IST)",
     "pinned_comment": "🎯 That tactical cover system is next level! Drop a like!",
-    "scheduled_date": "2026-11-21"
+    "scheduled_date": "2026-11-21",
+    "video_id": "vbwAPfai7ho",
+    "video_url": "https://youtube.com/shorts/vbwAPfai7ho",
+    "posted_at": "2026-11-19 04:58:14 PM IST",
+    "auto_posted": false
   },
   {
     "file": "final_clips/clip_8.mp4",
@@ -186,15 +194,23 @@
       "PlaneEscape",
       "MythpatMoments",
       "Shorts",
-      "GTA6"
+      "GTA6",
+      "GTAVI",
+      "Grand Theft Auto VI",
+      "Gaming",
+      "YouTube Shorts"
     ],
     "privacy": "public",
     "category": "20",
-    "uploaded": false,
+    "uploaded": true,
     "schedule": "05:00 PM IST",
     "slot_label": "Nov 21 - Slot 2: Evening Peak (05:00 PM IST)",
     "pinned_comment": "✈️ Look at that draw distance! Drop a comment if you're hyped for GTA 6!",
-    "scheduled_date": "2026-11-21"
+    "scheduled_date": "2026-11-21",
+    "video_id": "bNcHJ7PPyvU",
+    "video_url": "https://youtube.com/shorts/bNcHJ7PPyvU",
+    "posted_at": "2026-11-19 04:58:30 PM IST",
+    "auto_posted": false
   },
   {
     "file": "final_clips/clip_9.mp4",
@@ -206,15 +222,23 @@
       "GamingShorts",
       "Shorts",
       "GTA VI",
-      "Lucia"
+      "Lucia",
+      "GTAVI",
+      "Grand Theft Auto VI",
+      "Gaming",
+      "YouTube Shorts"
     ],
     "privacy": "public",
     "category": "20",
-    "uploaded": false,
+    "uploaded": true,
     "pinned_comment": "☕ Diner robbery mechanics look insane! What do you think of GTA 6 so far?",
     "scheduled_date": "2026-11-21",
     "schedule": "08:30 PM IST",
-    "slot_label": "Nov 21 - Slot 3: Prime Night Binge (08:30 PM IST)"
+    "slot_label": "Nov 21 - Slot 3: Prime Night Binge (08:30 PM IST)",
+    "video_id": "U5fDdFh5IeA",
+    "video_url": "https://youtube.com/shorts/U5fDdFh5IeA",
+    "posted_at": "2026-11-19 04:58:55 PM IST",
+    "auto_posted": false
   },
   {
     "file": "final_clips/clip_10.mp4",
@@ -225,15 +249,23 @@
       "theRadBrad",
       "StealthGaming",
       "Shorts",
-      "GTA6"
+      "GTA6",
+      "GTAVI",
+      "Grand Theft Auto VI",
+      "Gaming",
+      "YouTube Shorts"
     ],
     "privacy": "public",
     "category": "20",
-    "uploaded": false,
+    "uploaded": true,
     "pinned_comment": "🎯 That stealth takedown animation was so smooth! Drop a like!",
     "scheduled_date": "2026-11-22",
     "schedule": "12:30 PM IST",
-    "slot_label": "Nov 22 - Slot 1: Afternoon Rush (12:30 PM IST)"
+    "slot_label": "Nov 22 - Slot 1: Afternoon Rush (12:30 PM IST)",
+    "video_id": "gWukp2Ae8d8",
+    "video_url": "https://youtube.com/shorts/gWukp2Ae8d8",
+    "posted_at": "2026-11-19 04:59:14 PM IST",
+    "auto_posted": false
   },
   {
     "file": "final_clips/clip_11.mp4",
