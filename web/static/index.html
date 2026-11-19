@@ -611,6 +611,13 @@
               </div>
 
               <div>
+                <label class="text-[11px] font-bold text-indigo-400 uppercase tracking-wider flex items-center justify-between mb-1">
+                  <span>💬 Pinned Comment &amp; Reminder</span>
+                </label>
+                <input id="pinned-${clip.filename}" type="text" placeholder="e.g. Subscribe &amp; drop a comment below!" value="${escapeHtml(clip.pinned_comment || '')}" ${isUploaded ? 'disabled' : ''} onchange="saveClipSchedule('${clip.file}', '${clip.filename}')" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-indigo-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500 disabled:opacity-60" />
+              </div>
+
+              <div>
                 <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between mb-1">
                   <span>⏰ Scheduled Drop Slot (3/Day)</span>
                   <span class="text-[10px] text-purple-400 font-bold">${clip.slot_label || 'Auto-Scheduled'}</span>
@@ -653,12 +660,16 @@
       const schedule = document.getElementById(`schedule-${filename}`).value;
       const title = document.getElementById(`title-${filename}`).value;
       const affiliate = document.getElementById(`affiliate-${filename}`).value;
+      const pinned = document.getElementById(`pinned-${filename}`) ? document.getElementById(`pinned-${filename}`).value : undefined;
 
       try {
+        const payload = { file: filePath, schedule, title, affiliate_deal: affiliate };
+        if (pinned !== undefined) payload.pinned_comment = pinned;
+
         const res = await fetch('/api/update-clip', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ file: filePath, schedule, title, affiliate_deal: affiliate })
+          body: JSON.stringify(payload)
         }).then(r => r.json());
         if (res.status === 'success') {
           showToast(`☁️ Clip updated & auto-synced to Cloud!`, 'success');

@@ -466,6 +466,10 @@ def api_update_clip():
             item["schedule"] = data.get("schedule", item.get("schedule"))
             item["affiliate_deal"] = data.get("affiliate_deal", item.get("affiliate_deal"))
             item["privacy"] = data.get("privacy", item.get("privacy", "public"))
+            if "pinned_comment" in data:
+                item["pinned_comment"] = data.get("pinned_comment")
+            if "description" in data:
+                item["description"] = data.get("description")
             found = True
             break
     if not found:
