@@ -255,25 +255,31 @@ def api_status():
 @app.route("/api/clips", methods=["GET"])
 def api_clips():
     queue = load_queue()
-    queue_map = {item["file"]: item for item in queue}
-
-    all_files = sorted(glob.glob(str(FINAL_CLIPS_DIR / "*.mp4")))
     clips_data = []
+    seen_files = set()
 
-    for f in all_files:
-        rel_path = f"final_clips/{os.path.basename(f)}"
-        file_size = os.path.getsize(f) / (1024 * 1024)
+    # 1. Load all scheduled clips from queue (master schedule)
+    for item in queue:
+        rel_path = item.get("file", "")
+        seen_files.add(rel_path)
+        filename = os.path.basename(rel_path)
+        full_path = BASE_DIR / rel_path
 
-        item = queue_map.get(rel_path, {})
+        exists = full_path.exists()
+        file_size = (full_path.stat().st_size / (1024 * 1024)) if exists else item.get("size_mb", 32.5)
+
         clips_data.append({
             "file": rel_path,
-            "filename": os.path.basename(f),
-            "size_mb": round(file_size, 2),
-            "title": item.get("title", f"GTA VI Viral Highlight #{os.path.basename(f)}"),
+            "filename": filename,
+            "exists": exists,
+            "size_mb": round(file_size, 1),
+            "title": item.get("title", f"GTA VI Viral Highlight #{filename}"),
             "description": item.get("description", ""),
             "tags": item.get("tags", ["Shorts", "GTA6", "Gaming"]),
             "privacy": item.get("privacy", "public"),
             "schedule": item.get("schedule", None),
+            "scheduled_date": item.get("scheduled_date", None),
+            "slot_label": item.get("slot_label", item.get("schedule", "Scheduled Drop")),
             "approved": item.get("approved", False),
             "uploaded": item.get("uploaded", False),
             "video_url": item.get("video_url", None),
@@ -282,6 +288,36 @@ def api_clips():
             "pinned_comment": item.get("pinned_comment", "🔥 Which moment was your favorite? Subscribe for daily GTA VI Shorts!"),
             "affiliate_deal": item.get("affiliate_deal", "")
         })
+
+    # 2. Include any extra files in final_clips directory not explicitly in queue
+    all_files = sorted(
+        glob.glob(str(FINAL_CLIPS_DIR / "*.mp4")),
+        key=lambda x: int(Path(x).stem.split("_")[1]) if "_" in Path(x).stem and Path(x).stem.split("_")[1].isdigit() else 999
+    )
+    for f in all_files:
+        rel_path = f"final_clips/{os.path.basename(f)}"
+        if rel_path not in seen_files:
+            file_size = os.path.getsize(f) / (1024 * 1024)
+            clips_data.append({
+                "file": rel_path,
+                "filename": os.path.basename(f),
+                "exists": True,
+                "size_mb": round(file_size, 1),
+                "title": f"GTA VI Viral Highlight #{os.path.basename(f)}",
+                "description": "",
+                "tags": ["Shorts", "GTA6", "Gaming"],
+                "privacy": "public",
+                "schedule": None,
+                "scheduled_date": None,
+                "slot_label": None,
+                "approved": False,
+                "uploaded": False,
+                "video_url": None,
+                "auto_posted": False,
+                "posted_at": None,
+                "pinned_comment": "",
+                "affiliate_deal": ""
+            })
 
     return jsonify({"clips": clips_data})
 

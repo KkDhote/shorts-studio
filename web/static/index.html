@@ -450,7 +450,14 @@
         card.innerHTML = `
           <div class="flex flex-col md:flex-row gap-4 items-start">
             <div class="w-full md:w-36 aspect-[9/16] rounded-2xl overflow-hidden bg-black flex-shrink-0 relative border border-slate-800">
-              <video src="${videoSrc}" controls preload="metadata" class="w-full h-full object-cover"></video>
+              ${clip.exists 
+                ? `<video src="${videoSrc}" controls preload="metadata" class="w-full h-full object-cover"></video>` 
+                : `<div class="w-full h-full flex flex-col items-center justify-center bg-slate-950 p-2 text-center text-[10px]">
+                    <span class="text-3xl mb-1">⚡</span>
+                    <span class="font-bold text-amber-300">1080x1920 @ 60FPS</span>
+                    <span class="text-[9px] text-slate-400 mt-1">Ready in Auto-Pilot Queue</span>
+                   </div>`
+              }
               ${isUploaded 
                 ? '<div class="absolute top-2 left-2 bg-emerald-500 text-black text-[10px] font-black px-2 py-0.5 rounded-full shadow">● LIVE</div>' 
                 : '<div class="absolute top-2 left-2 bg-amber-500 text-black text-[10px] font-black px-2 py-0.5 rounded-full shadow">READY</div>'}
@@ -477,7 +484,7 @@
               <div>
                 <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between mb-1">
                   <span>⏰ Scheduled Drop Slot (3/Day)</span>
-                  <span class="text-[10px] text-purple-400 font-bold">Auto-posts if you forget</span>
+                  <span class="text-[10px] text-purple-400 font-bold">${clip.slot_label || 'Auto-Scheduled'}</span>
                 </label>
                 <select id="schedule-${clip.filename}" ${isUploaded ? 'disabled' : ''} onchange="saveClipSchedule('${clip.file}', '${clip.filename}')" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-purple-500 disabled:opacity-60">
                   <option value="" ${!clip.schedule ? 'selected' : ''}>Immediate (Manual Review)</option>
@@ -494,7 +501,7 @@
             <div class="text-[11px] text-slate-400">
               ${isUploaded 
                 ? (clip.auto_posted ? '<span class="text-purple-400 font-semibold">🤖 Posted Autonomously by Auto-Pilot</span>' : '<span class="text-emerald-400 font-semibold">Published Live</span>')
-                : `<span class="text-amber-400 font-medium">⏳ Scheduled: <strong>${clip.schedule || 'Pending'}</strong></span>`
+                : `<span class="text-amber-400 font-medium">⏳ Scheduled: <strong>${clip.slot_label || clip.schedule || 'Pending'}</strong></span>`
               }
             </div>
 
